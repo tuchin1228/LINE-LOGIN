@@ -10,36 +10,103 @@
 
 <body>
 
+    <h1 style="font-size: 5rem;" id="name"></h1>
+    <img src="" alt="" id="avator">
+    <h2 style="font-size: 5rem;" id="email"></h2>
+    <h3 style="font-size: 5rem;" id="exp"></h3>
+    <h3 style="font-size: 5rem;" id="iat"></h3>
+    <button style="font-size: 5rem;" id="lineLoginBtn">LINE 登入</button>
 
+    <button style="font-size: 5rem;" id="callnotice">發出notice</button>
 
-    <button id="lineLoginBtn">LINE 登入</button>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js'></script>
     <script>
         $('#lineLoginBtn').on('click', function (e) {
-            // let client_id = '1656023828';
-            // let redirect_uri = 'https://tuchin1228.github.io/LINE-LOGIN/';
-            // let link = 'https://access.line.me/oauth2/v2.1/authorize?';
-            // link += 'response_type=code';
-            // link += '&client_id=' + client_id;
-            // link += '&redirect_uri=' + redirect_uri;
-            // link += '&state=login';
-            // link += '&scope=profile%20openid%20email';
-            // window.location.href = link;
+            let client_id = '1656023828';
+            let redirect_uri = 'http://127.0.0.1:5500/line/index.html';
+            let link = 'https://access.line.me/oauth2/v2.1/authorize?';
+            link += 'response_type=code';
+            link += '&client_id=' + client_id;
+            link += '&redirect_uri=' + redirect_uri;
+            link += '&state=login';
+            link += '&scope=profile%20openid%20email';
+            window.location.href = link;
+        });
+
+        console.log(document.URL);
+        const queryString = window.location.search;
+        let urlParams = new URLSearchParams(queryString)
+        if (urlParams.get('code')) {
+
             $.ajax({
-                url: 'https://access.line.me/oauth2/v2.1/authorize',
-                type: 'GET',
+                url: 'https://api.line.me/oauth2/v2.1/token',
+                type: 'POST',
+                contentType: 'application/x-www-form-urlencoded',
                 data: {
-                    response_type: 'code',
+                    grant_type: 'authorization_code',
                     client_id: '1656023828',
-                    redirect_uri: 'https://tuchin1228.github.io/LINE-LOGIN/',
-                    state: "login",
-                    scope: "profile%20openid%20email"
+                    client_secret: 'c276aca1fd5bf3b620fca8927e8be18e',
+                    code: urlParams.get('code'),
+                    redirect_uri: document.URL.split('?')[0]
                 },
                 success: function (res) {
                     console.log(res);
+                    if (res.access_token) {
+                        $.ajax({
+                            url: 'https://api.line.me/v2/profile',
+                            type: 'GET',
+                            headers: {
+                                Authorization: 'Bearer ' + res.access_token
+                            },
+                            success: function (res) {
+                                console.log(res);
+                                $('#name').append(res.displayName);
+                                $("#avator").attr("src", res.pictureUrl);
+                            }
+                        })
+                        $.ajax({
+                            url: 'https://api.line.me/oauth2/v2.1/verify',
+                            type: 'POST',
+                            contentType: 'application/x-www-form-urlencoded',
+                            data: {
+                                id_token: res.id_token,
+                                client_id: '1656023828'
+                            },
+                            success: function (res) {
+                                console.log(res);
+                                $('#email').append(res.email);
+                                let exp = new Date(res.exp * 1000)
+                                let iat = new Date(res.iat * 1000)
+                                $('#exp').append(exp)
+                                $('#iat').append(iat)
+                            }
+                        })
+                    }
                 }
             })
-        });
+        }
+    </script>
+
+    <script>
+        $('#callnotice').on('click', function (e) {
+            var CHANNEL_ACCESS_TOKEN =
+                'Fh4S3idQ+ho64aIcYhNLhShC7PITdZMqx7b4E8UixZt4jTQhrod9KFfBq9BzuzcTV9MhFx9c/0JAvxkmPAOtrro7O0dbOjB5ACautIltRf6z4fNDelaAWi6+1+EQAFLsMlpWUX4l0HxufPV5AsrqegdB04t89/1O/w1cDnyilFU=';
+            var url = 'https://api.line.me/v2/bot/message/push';
+            fetch(url, {
+                'headers': {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN,
+                },
+                'method': 'post',
+                'payload': JSON.stringify({
+                    'to': 'U87480a52eb99a3b1366865c787b66c7c',
+                    'messages': [{
+                        type: 'text',
+                        text: 'Notice測試 ' + 123
+                    }]
+                }),
+            });
+        })
     </script>
 
 </body>
