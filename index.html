@@ -16,8 +16,8 @@
     <h3 style="font-size: 5rem;" id="exp"></h3>
     <h3 style="font-size: 5rem;" id="iat"></h3>
     <button style="font-size: 5rem;" id="lineLoginBtn">LINE 登入</button>
-    
-    <hr/>
+
+    <hr />
     <input type="text" placeholder="notify留言" id="msg">
     <button style="font-size: 5rem;" id="callnotice">發出notify</button>
 
@@ -124,10 +124,9 @@
             link += '&scope=notify';
             window.location.href = link;
 
-             const queryString = window.location.search;
-            let urlParams = new URLSearchParams(queryString)
-            
-         
+
+
+
             // window.location.href="https: //notify-bot.line.me/oauth/authorize"
             // $.ajax({
             //     url: 'https://notify-bot.line.me/oauth/token',
@@ -182,26 +181,27 @@
             //     }),
             // });
         })
-
-           console.log('code = ', urlParams.get('code'));
-            if (urlParams.get('code')) {
-                console.log('有code = ', urlParams.get('code'));
-                $.ajax({
-                    url: 'https://notify-bot.line.me/oauth/token',
-                    type: 'POST',
-                    contentType: 'application/x-www-form-urlencoded',
-                    data: {
-                        grant_type: 'authorization_code',
-                        client_id: 'toDmXA0cNS8FOhPsS3mG52',
-                        client_secret: 'X0B4vqfSRqKyzA05wnBUNcWfgb48DEr2W4ZopuA9VHN',
-                        code: urlParams.get('code'),
-                        redirect_uri: document.URL.split('?')[0]
-                    },
-                    success: function (res) {
-                        console.log(res);
-                    }
-                })
-            }
+        const queryString = window.location.search;
+        let urlParams = new URLSearchParams(queryString)
+        console.log('code = ', urlParams.get('code'));
+        if (urlParams.get('code')) {
+            console.log('有code = ', urlParams.get('code'));
+            $.ajax({
+                url: 'https://notify-bot.line.me/oauth/token',
+                type: 'POST',
+                contentType: 'application/x-www-form-urlencoded',
+                data: {
+                    grant_type: 'authorization_code',
+                    client_id: 'toDmXA0cNS8FOhPsS3mG52',
+                    client_secret: 'X0B4vqfSRqKyzA05wnBUNcWfgb48DEr2W4ZopuA9VHN',
+                    code: urlParams.get('code'),
+                    redirect_uri: document.URL.split('?')[0]
+                },
+                success: function (res) {
+                    console.log(res);
+                }
+            })
+        }
     </script>
 
 </body>
