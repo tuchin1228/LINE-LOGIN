@@ -126,8 +126,10 @@
 
              const queryString = window.location.search;
             let urlParams = new URLSearchParams(queryString)
-            if (urlParams.get('code')) {
             
+            console.log('code = ', urlParams.get('code'));
+            if (urlParams.get('code')) {
+                console.log('有code = ', urlParams.get('code'));
                 $.ajax({
                     url: 'https://notify-bot.line.me/oauth/token',
                     type: 'POST',
