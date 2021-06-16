@@ -204,7 +204,7 @@
                         // console.log(res);
                         if (res.access_token) {
                             $.ajax({
-                                url: 'https://notify-api.line.me/api/notify',
+                                url: 'https://cors-anywhere.herokuapp.com/https://notify-api.line.me/api/notify',
                                 type: 'POST',
                                 contentType: 'application/x-www-form-urlencoded',
                                 headers: {
