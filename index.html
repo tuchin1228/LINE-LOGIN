@@ -103,7 +103,7 @@
 
         $('#send').on('click', function (e) {
             $.ajax({
-                url: 'https://notify-api.line.me/api/notify',
+                url: 'https://cors-anywhere.herokuapp.com/https://notify-api.line.me/api/notify',
                 contentType: 'application/x-www-form-urlencoded',
                 type:'POST',
                 headers: {
@@ -196,7 +196,7 @@
             if (urlParams.get('code')) {
                 console.log('有code = ', urlParams.get('code'));
                 $.ajax({
-                    url: 'https://cors-anywhere.herokuapp.com/https://notify-bot.line.me/oauth/token',
+                    url: 'https://notify-bot.line.me/oauth/token',
                     type: 'POST',
                     contentType: 'application/x-www-form-urlencoded',
                     data: {
