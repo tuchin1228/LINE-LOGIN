@@ -100,19 +100,37 @@
         // }), );
 
         $('#callnotice').on('click', function (e) {
+            // $.ajax({
+            //     url:'https://notify-api.line.me/api/notify',
+            //     contentType: 'application/x-www-form-urlencoded',
+            //     headers: {
+            //         Authorization: 'Bearer EZ7Yz6demlu9vrXdKtzdNX3hAGbkkh7VLagppJqlHwW'
+            //     },
+            //     data:{
+            //         message: $('#msg').val()
+            //     },
+            //     success:function(res){
+            //         console.log(res)
+            //     }
+            // })
+
             $.ajax({
-                url:'https://notify-api.line.me/api/notify',
+                url: 'https://notify-bot.line.me/oauth/token',
+                type: 'POST',
                 contentType: 'application/x-www-form-urlencoded',
-                headers: {
-                    Authorization: 'Bearer EZ7Yz6demlu9vrXdKtzdNX3hAGbkkh7VLagppJqlHwW'
+                data: {
+                    grant_type: 'authorization_code',
+                    client_id: 'toDmXA0cNS8FOhPsS3mG52',
+                    client_secret: 'X0B4vqfSRqKyzA05wnBUNcWfgb48DEr2W4ZopuA9VHN',
+                    code: urlParams.get('code'),
+                    redirect_uri: document.URL.split('?')[0]
                 },
-                data:{
-                    message: $('#msg').val()
-                },
-                success:function(res){
-                    console.log(res)
+                success: function (res) {
+                    console.log('notify',res);
                 }
             })
+
+
             // var CHANNEL_ACCESS_TOKEN =
             //     'Fh4S3idQ+ho64aIcYhNLhShC7PITdZMqx7b4E8UixZt4jTQhrod9KFfBq9BzuzcTV9MhFx9c/0JAvxkmPAOtrro7O0dbOjB5ACautIltRf6z4fNDelaAWi6+1+EQAFLsMlpWUX4l0HxufPV5AsrqegdB04t89/1O/w1cDnyilFU=';
             // var url = 'https://cors-anywhere.herokuapp.com/https://api.line.me/v2/bot/message/push';
