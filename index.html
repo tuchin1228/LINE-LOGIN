@@ -19,7 +19,8 @@
 
     <hr />
     <input type="text" placeholder="notify留言" id="msg">
-    <button style="font-size: 5rem;" id="callnotice">發出notify</button>
+    <button  style="font-size: 5rem;" id="postnotice">送出notify</button>
+    <button style="font-size: 5rem;" id="callnotice">notify連線</button>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js'></script>
     <!-- <script>
@@ -181,40 +182,44 @@
             //     }),
             // });
         })
-        const queryString = window.location.search;
-        let urlParams = new URLSearchParams(queryString)
-        console.log('code = ', urlParams.get('code'));
-        if (urlParams.get('code')) {
-            console.log('有code = ', urlParams.get('code'));
-            $.ajax({
-                url: 'https://cors-anywhere.herokuapp.com/https://notify-bot.line.me/oauth/token',
-                type: 'POST',
-                contentType: 'application/x-www-form-urlencoded',
-                data: {
-                    grant_type: 'authorization_code',
-                    client_id: 'toDmXA0cNS8FOhPsS3mG52',
-                    client_secret: 'X0B4vqfSRqKyzA05wnBUNcWfgb48DEr2W4ZopuA9VHN',
-                    code: urlParams.get('code'),
-                    redirect_uri: document.URL.split('?')[0]
-                },
-                success: function (res) {
-                    // console.log(res);
-                    if(res.access_token){
-                        $.ajax({
-                            url:'https://notify-api.line.me/api/notify',
-                            type: 'POST',
-                            contentType: 'application/x-www-form-urlencoded',
-                            headers:{
-                                Authorization: res.access_token
-                            },
-                            data: {
-                                message: $('#msg').val()
-                            }
-                        })
+
+        $('#postnotice').on('click',function(e){
+            const queryString = window.location.search;
+            let urlParams = new URLSearchParams(queryString)
+            console.log('code = ', urlParams.get('code'));
+            if (urlParams.get('code')) {
+                console.log('有code = ', urlParams.get('code'));
+                $.ajax({
+                    url: 'https://cors-anywhere.herokuapp.com/https://notify-bot.line.me/oauth/token',
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded',
+                    data: {
+                        grant_type: 'authorization_code',
+                        client_id: 'toDmXA0cNS8FOhPsS3mG52',
+                        client_secret: 'X0B4vqfSRqKyzA05wnBUNcWfgb48DEr2W4ZopuA9VHN',
+                        code: urlParams.get('code'),
+                        redirect_uri: document.URL.split('?')[0]
+                    },
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.access_token) {
+                            $.ajax({
+                                url: 'https://notify-api.line.me/api/notify',
+                                type: 'POST',
+                                contentType: 'application/x-www-form-urlencoded',
+                                headers: {
+                                    Authorization: res.access_token
+                                },
+                                data: {
+                                    message: $('#msg').val()
+                                }
+                            })
+                        }
                     }
-                }
-            })
-        }
+                })
+            }
+        })
+       
     </script>
 
 </body>
