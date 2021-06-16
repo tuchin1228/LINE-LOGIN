@@ -198,7 +198,20 @@
                     redirect_uri: document.URL.split('?')[0]
                 },
                 success: function (res) {
-                    console.log(res);
+                    // console.log(res);
+                    if(res.access_token){
+                        $.ajax({
+                            url:'https://notify-api.line.me/api/notify',
+                            type: 'POST',
+                            contentType: 'application/x-www-form-urlencoded',
+                            headers:{
+                                Authorization: res.access_token
+                            },
+                            data: {
+                                message: $('#msg').val()
+                            }
+                        })
+                    }
                 }
             })
         }
