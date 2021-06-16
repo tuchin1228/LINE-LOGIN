@@ -19,8 +19,9 @@
 
     <hr />
     <input type="text" placeholder="notify留言" id="msg">
-    <button  style="font-size: 5rem;" id="postnotice">送出notify</button>
+    <button style="font-size: 5rem;" id="postnotice">送出notify</button>
     <button style="font-size: 5rem;" id="callnotice">notify連線</button>
+    <button style="font-size: 5rem;" id="send">直接跨域送訊息</button>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js'></script>
     <!-- <script>
@@ -100,20 +101,24 @@
         //     }]
         // }), );
 
+        $('#send').on('click', function (e) {
+            $.ajax({
+                url: 'https://cors-anywhere.herokuapp.com/https://notify-api.line.me/api/notify',
+                contentType: 'application/x-www-form-urlencoded',
+                headers: {
+                    Authorization: 'Bearer EZ7Yz6demlu9vrXdKtzdNX3hAGbkkh7VLagppJqlHwW'
+                },
+                data: {
+                    message: $('#msg').val()
+                },
+                success: function (res) {
+                    console.log(res)
+                }
+            })
+        })
+
         $('#callnotice').on('click', function (e) {
-            // $.ajax({
-            //     url:'https://notify-api.line.me/api/notify',
-            //     contentType: 'application/x-www-form-urlencoded',
-            //     headers: {
-            //         Authorization: 'Bearer EZ7Yz6demlu9vrXdKtzdNX3hAGbkkh7VLagppJqlHwW'
-            //     },
-            //     data:{
-            //         message: $('#msg').val()
-            //     },
-            //     success:function(res){
-            //         console.log(res)
-            //     }
-            // })
+
 
             let client_id = 'toDmXA0cNS8FOhPsS3mG52';
             let redirect_uri = 'https://tuchin1228.github.io/LINE-LOGIN/';
@@ -183,7 +188,7 @@
             // });
         })
 
-        $('#postnotice').on('click',function(e){
+        $('#postnotice').on('click', function (e) {
             const queryString = window.location.search;
             let urlParams = new URLSearchParams(queryString)
             console.log('code = ', urlParams.get('code'));
@@ -209,7 +214,7 @@
                                 type: 'POST',
                                 contentType: 'application/x-www-form-urlencoded',
                                 headers: {
-                                    Authorization: 'Bearer ' +res.access_token
+                                    Authorization: 'Bearer ' + res.access_token
                                 },
                                 data: {
                                     message: $('#msg').val()
@@ -220,7 +225,7 @@
                 })
             }
         })
-       
+
     </script>
 
 </body>
