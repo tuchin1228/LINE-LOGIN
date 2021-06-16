@@ -127,25 +127,7 @@
              const queryString = window.location.search;
             let urlParams = new URLSearchParams(queryString)
             
-            console.log('code = ', urlParams.get('code'));
-            if (urlParams.get('code')) {
-                console.log('有code = ', urlParams.get('code'));
-                $.ajax({
-                    url: 'https://notify-bot.line.me/oauth/token',
-                    type: 'POST',
-                    contentType: 'application/x-www-form-urlencoded',
-                    data: {
-                        grant_type: 'authorization_code',
-                        client_id: 'toDmXA0cNS8FOhPsS3mG52',
-                        client_secret: 'X0B4vqfSRqKyzA05wnBUNcWfgb48DEr2W4ZopuA9VHN',
-                        code: urlParams.get('code'),
-                        redirect_uri: document.URL.split('?')[0]
-                    },
-                    success: function (res) {
-                        console.log(res);
-                    }
-                })
-            }
+         
             // window.location.href="https: //notify-bot.line.me/oauth/authorize"
             // $.ajax({
             //     url: 'https://notify-bot.line.me/oauth/token',
@@ -200,6 +182,26 @@
             //     }),
             // });
         })
+
+           console.log('code = ', urlParams.get('code'));
+            if (urlParams.get('code')) {
+                console.log('有code = ', urlParams.get('code'));
+                $.ajax({
+                    url: 'https://notify-bot.line.me/oauth/token',
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded',
+                    data: {
+                        grant_type: 'authorization_code',
+                        client_id: 'toDmXA0cNS8FOhPsS3mG52',
+                        client_secret: 'X0B4vqfSRqKyzA05wnBUNcWfgb48DEr2W4ZopuA9VHN',
+                        code: urlParams.get('code'),
+                        redirect_uri: document.URL.split('?')[0]
+                    },
+                    success: function (res) {
+                        console.log(res);
+                    }
+                })
+            }
     </script>
 
 </body>
