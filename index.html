@@ -16,8 +16,10 @@
     <h3 style="font-size: 5rem;" id="exp"></h3>
     <h3 style="font-size: 5rem;" id="iat"></h3>
     <button style="font-size: 5rem;" id="lineLoginBtn">LINE 登入</button>
-
-    <button style="font-size: 5rem;" id="callnotice">發出notice</button>
+    
+    <hr/>
+    <input type="text" placeholder="notify留言" id="msg">
+    <button style="font-size: 5rem;" id="callnotice">發出notify</button>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js'></script>
     <script>
@@ -98,27 +100,40 @@
         // }), );
 
         $('#callnotice').on('click', function (e) {
-            var CHANNEL_ACCESS_TOKEN =
-                'Fh4S3idQ+ho64aIcYhNLhShC7PITdZMqx7b4E8UixZt4jTQhrod9KFfBq9BzuzcTV9MhFx9c/0JAvxkmPAOtrro7O0dbOjB5ACautIltRf6z4fNDelaAWi6+1+EQAFLsMlpWUX4l0HxufPV5AsrqegdB04t89/1O/w1cDnyilFU=';
-            var url = 'https://cors-anywhere.herokuapp.com/https://api.line.me/v2/bot/message/push';
             $.ajax({
-                url: url,
-                type: 'POST',
-                contentType: 'application/json',
+                url:'https://notify-api.line.me/api/notify',
+                contentType: 'application/x-www-form-urlencoded',
                 headers: {
-                    Authorization: 'Bearer ' + CHANNEL_ACCESS_TOKEN,
+                    Authorization: 'Bearer EZ7Yz6demlu9vrXdKtzdNX3hAGbkkh7VLagppJqlHwW'
                 },
-                data: JSON.stringify({
-                    'to': 'U87480a52eb99a3b1366865c787b66c7c',
-                    'messages': [{
-                        type: 'text',
-                        text: 'Notice測試 ' + 123
-                    }]
-                }),
-                success: function (res) {
-                    console.log(res);
+                data:{
+                    message: $('#msg').val()
+                },
+                success:function(res){
+                    console.log(res)
                 }
             })
+            // var CHANNEL_ACCESS_TOKEN =
+            //     'Fh4S3idQ+ho64aIcYhNLhShC7PITdZMqx7b4E8UixZt4jTQhrod9KFfBq9BzuzcTV9MhFx9c/0JAvxkmPAOtrro7O0dbOjB5ACautIltRf6z4fNDelaAWi6+1+EQAFLsMlpWUX4l0HxufPV5AsrqegdB04t89/1O/w1cDnyilFU=';
+            // var url = 'https://cors-anywhere.herokuapp.com/https://api.line.me/v2/bot/message/push';
+            // $.ajax({
+            //     url: url,
+            //     type: 'POST',
+            //     contentType: 'application/json',
+            //     headers: {
+            //         Authorization: 'Bearer ' + CHANNEL_ACCESS_TOKEN,
+            //     },
+            //     data: JSON.stringify({
+            //         'to': 'U87480a52eb99a3b1366865c787b66c7c',
+            //         'messages': [{
+            //             type: 'text',
+            //             text: 'Notice測試 ' + 123
+            //         }]
+            //     }),
+            //     success: function (res) {
+            //         console.log(res);
+            //     }
+            // })
             // fetch(url, {
             //     'headers': {
             //         'Content-Type': 'application/json; charset=UTF-8',
