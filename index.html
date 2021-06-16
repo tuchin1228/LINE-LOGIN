@@ -202,19 +202,20 @@
                     },
                     success: function (res) {
                         console.log(res);
-                        // if (res.access_token) {
-                        //     $.ajax({
-                        //         url: 'https://cors-anywhere.herokuapp.com/https://notify-api.line.me/api/notify',
-                        //         type: 'POST',
-                        //         contentType: 'application/x-www-form-urlencoded',
-                        //         headers: {
-                        //             Authorization: 'Bearer ' +res.access_token
-                        //         },
-                        //         data: {
-                        //             message: $('#msg').val()
-                        //         }
-                        //     })
-                        // }
+                        if (res.access_token) {
+                            console.log('送出msg');
+                            $.ajax({
+                                url: 'https://cors-anywhere.herokuapp.com/https://notify-api.line.me/api/notify',
+                                type: 'POST',
+                                contentType: 'application/x-www-form-urlencoded',
+                                headers: {
+                                    Authorization: 'Bearer ' +res.access_token
+                                },
+                                data: {
+                                    message: $('#msg').val()
+                                }
+                            })
+                        }
                     }
                 })
             }
