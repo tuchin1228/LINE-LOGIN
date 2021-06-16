@@ -208,7 +208,7 @@
                                 type: 'POST',
                                 contentType: 'application/x-www-form-urlencoded',
                                 headers: {
-                                    Authorization: res.access_token
+                                    Authorization: 'Bearer ' +res.access_token
                                 },
                                 data: {
                                     message: $('#msg').val()
