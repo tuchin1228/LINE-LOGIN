@@ -113,7 +113,17 @@
             //         console.log(res)
             //     }
             // })
-            window.location.href="https: //notify-bot.line.me/oauth/authorize"
+
+            let client_id = 'toDmXA0cNS8FOhPsS3mG52';
+            let redirect_uri = 'https://tuchin1228.github.io/LINE-LOGIN/';
+            let link = 'https: //notify-bot.line.me/oauth/authorize?';
+            link += 'response_type=code';
+            link += '&client_id=' + client_id;
+            link += '&redirect_uri=' + redirect_uri;
+            link += '&state=Notify';
+            link += '&scope=notify';
+            window.location.href = link;
+            // window.location.href="https: //notify-bot.line.me/oauth/authorize"
             // $.ajax({
             //     url: 'https://notify-bot.line.me/oauth/token',
             //     type: 'POST',
